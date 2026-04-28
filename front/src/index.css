@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "BYekan";
+    src: url("../src/assets/fonts/Yekan.ttf");
+}
+
+* {
+    text-align: right;
+    direction: rtl;
+    font-family: "BYekan";
+}
+
+@theme {
+    --spacing-app-sidebar-w: 300px;
+    --spacing-app-header-h: 64px;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+.Toastify__toast {
+    font-family: "BYekan" !important;
+}
