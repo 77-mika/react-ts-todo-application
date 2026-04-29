@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { addTaskCategoryService, getTaskCategories } from "../../services/taskCategory";
-import type { categoriesItemListType } from "../../types/taskCategory";
+import { getTaskCategories } from "../../services/taskCategory";
+import type {  categoriesItemListType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import {
 
@@ -10,6 +10,7 @@ import {
 } from "react-icons/bs";
 import { successToast } from "../../utils/toastUtils";
 import SimpleDialog from "../../components/ui/SimpleDialoge";
+import IsnideModalDialoge from "./_patial/isnideModalDialoge";
 
 const Categories = () => {
     const [categories, setCategories] = useState<categoriesItemListType[]>([]);
@@ -22,18 +23,14 @@ const Categories = () => {
             successToast()
         };
     };
-    const handleAddTaskCategory = async () =>{
-        const res = await addTaskCategoryService();
-        if(res) {
-            console.log(res.data)
-            setCategories([...categories,res.data]);
-            successToast()
-        }
-    }
+
 
     useEffect(() => {
         handleGetTaskCategories();
     }, []);
+
+    const handleChangeCategoriesList = (data:categoriesItemListType) =>
+        setCategories([...categories,data]);
 
     return (
         <div>
@@ -42,11 +39,11 @@ const Categories = () => {
                 <button onClick={()=>setIsOpen(true)} className="text-white bg-sky-500 rounded-lg px-3 py-1 cursor-pointer hover:bg-sky-300 transition-all ease-in-out  ">
                     افزودن دسته بندی
                 </button>
-                <SimpleDialog isOpen={isOpen} onClose={()=>setIsOpen(false)}>
-                    <div className=""></div>
+                <SimpleDialog isOpen={isOpen}  onClose={()=>setIsOpen(false) }>
+                    <IsnideModalDialoge setCategories={handleChangeCategoriesList} onClose={()=>setIsOpen(false)} />
                 </SimpleDialog>
             </div>
-            <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:*:bg-gray-600 dark:shadow-gray-500">
+            <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:*:bg-gray-600 dark:shadow-gray-500 ">
                 <thead>
                     <tr className="border-b dark:border-b-gray-500 h-12 [&>th]:px-2 [&>th]:md:px-3 [&>th]:text-center ">
                         <th className=" hidden md:table-cell">#</th>

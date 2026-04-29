@@ -10,7 +10,7 @@ function App() {
 	// const [showSidebar,setShowSiebar] = useState(false)
 
 
-    return (
+    return (<>
             <AppContainer>
             <div className="dark:text-gray-100">
             <Content />
@@ -19,6 +19,7 @@ function App() {
             </div>
             <ToastContainer />
             </AppContainer>
+            </>
     );
 }
 

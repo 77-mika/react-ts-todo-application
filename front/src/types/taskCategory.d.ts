@@ -1,8 +1,13 @@
-export type categoriesItemListType = {
-"id": string,
+export type addCategoryType = {
 "title":string,
 "description":string,
-"icon":string,
 "userId":string,
-"createdAt":string
+"createdAt":stringو
+"icon":string
 }
+
+export type categoriesItemListType = addCategoryType & {
+"id": string,
+};
+
+
