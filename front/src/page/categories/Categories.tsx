@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTaskCategories } from "../../services/taskCategory";
+import { deleteTaskCategoryService, getTaskCategories } from "../../services/taskCategory";
 import type {  categoriesItemListType } from "../../types/taskCategory";
 import { convertMiladi2Jalali } from "../../utils/dateUtils";
 import {
@@ -11,6 +11,7 @@ import {
 import { successToast } from "../../utils/toastUtils";
 import SimpleDialog from "../../components/ui/SimpleDialoge";
 import IsnideModalDialoge from "./_patial/isnideModalDialoge";
+import { confirmAlert } from "@/utils/alertUtils";
 
 const Categories = () => {
     const [categories, setCategories] = useState<categoriesItemListType[]>([]);
@@ -31,6 +32,20 @@ const Categories = () => {
 
     const handleChangeCategoriesList = (data:categoriesItemListType) =>
         setCategories([...categories,data]);
+
+    const handleDeleteCategory = async (item: categoriesItemListType)=>{
+        const confirm = await confirmAlert('ایا مطمعن هستید؟')
+        if (confirm.isConfirmed){
+            const res = await deleteTaskCategoryService(item.id)
+            if (res.status === 200) {
+            const newCategories = categories.filter((category)=>category.id !== item.id);
+            setCategories(newCategories);
+            successToast("رکورد با موفقیت حذف شد")
+            }
+
+        }
+
+    }
 
     return (
         <div>
@@ -65,7 +80,7 @@ const Categories = () => {
                             <td>{convertMiladi2Jalali(item.createdAt)}</td>
                             <td>
                                 <span className="h-full flex justify-center itemce gap-2">
-                                    <BsTrash3 className="text-red-400 cursor-pointer " />
+                                    <BsTrash3 className="text-red-400 cursor-pointer " onClick={()=>handleDeleteCategory(item)} />
                                     <BsPencil className="text-gray-600 dark:text-gray-300 cursor-pointer " />
                                 </span>
                             </td>

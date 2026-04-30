@@ -10,7 +10,8 @@ import { useState } from "react";
 
 const IsnideModalDialoge = ({
     setCategories,
-    onClose
+    onClose,
+
 }: {
     setCategories: (data: categoriesItemListType) => void;
     onClose:()=>void;
@@ -30,7 +31,7 @@ const IsnideModalDialoge = ({
         e.preventDefault();
         setIsLoading(true)
         const res = await addTaskCategoryService(value);
-        if (res) {
+        if (res.status === 201) {
             setCategories(res.data);
             successToast();
             setIsLoading(false)
