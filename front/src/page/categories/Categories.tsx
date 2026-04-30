@@ -9,17 +9,17 @@ import {
     BsTrash3,
 } from "react-icons/bs";
 import { successToast } from "../../utils/toastUtils";
-import SimpleDialog from "../../components/ui/SimpleDialoge";
 import IsnideModalDialoge from "./_patial/isnideModalDialoge";
 import { confirmAlert } from "@/utils/alertUtils";
 
 const Categories = () => {
     const [categories, setCategories] = useState<categoriesItemListType[]>([]);
     const [isOpen,setIsOpen] = useState<boolean>(false)
+    const [selectedItem,setSelectedItem] = useState<categoriesItemListType>()
     const handleGetTaskCategories = async () => {
         const data = await getTaskCategories();
         if (data){
-            
+
             setCategories(data)
             successToast()
         };
@@ -51,12 +51,21 @@ const Categories = () => {
         <div>
             <div className="flex justify-between items-center ">
                 <h1 className="py-5 text-lg font-bold">لیست دسته بندی وظایف</h1>
-                <button onClick={()=>setIsOpen(true)} className="text-white bg-sky-500 rounded-lg px-3 py-1 cursor-pointer hover:bg-sky-300 transition-all ease-in-out  ">
+                <button onClick={()=>{
+                    setIsOpen(true)
+                    setSelectedItem(undefined)                
+                    }} className="text-white bg-sky-500 rounded-lg px-3 py-1 cursor-pointer hover:bg-sky-300 transition-all ease-in-out  "
+                    >
                     افزودن دسته بندی
                 </button>
-                <SimpleDialog isOpen={isOpen}  onClose={()=>setIsOpen(false) }>
-                    <IsnideModalDialoge setCategories={handleChangeCategoriesList} onClose={()=>setIsOpen(false)} />
-                </SimpleDialog>
+                <IsnideModalDialoge
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    setCategories={handleChangeCategoriesList}
+                    onClose={()=>setIsOpen(false)}
+                    selectedItem={selectedItem}
+                    setSelectedItem={setSelectedItem}
+                    />
             </div>
             <table className="table w-full rounded-lg overflow-hidden shadow-sm bg-white dark:*:bg-gray-600 dark:shadow-gray-500 ">
                 <thead>
@@ -81,7 +90,9 @@ const Categories = () => {
                             <td>
                                 <span className="h-full flex justify-center itemce gap-2">
                                     <BsTrash3 className="text-red-400 cursor-pointer " onClick={()=>handleDeleteCategory(item)} />
-                                    <BsPencil className="text-gray-600 dark:text-gray-300 cursor-pointer " />
+                                    <BsPencil className="text-gray-600 dark:text-gray-300 cursor-pointer " onClick={()=>{
+                                        setIsOpen(true)
+                                        setSelectedItem(item)}} />
                                 </span>
                             </td>
                         </tr>

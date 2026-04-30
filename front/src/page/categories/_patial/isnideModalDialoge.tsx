@@ -1,29 +1,43 @@
 import AppButton from "@/components/shared/AppButton";
 import AppInput from "@/components/shared/AppInput";
+import SimpleDialog from "@/components/ui/SimpleDialoge";
 import { addTaskCategoryService } from "@/services/taskCategory";
 import type {
     addCategoryType,
     categoriesItemListType,
 } from "@/types/taskCategory";
 import { successToast } from "@/utils/toastUtils";
-import { useState } from "react";
+import React, { useEffect, useState, type SetStateAction } from "react";
 
-const IsnideModalDialoge = ({
-    setCategories,
-    onClose,
 
-}: {
+type isnideModalDialogeType = {
     setCategories: (data: categoriesItemListType) => void;
     onClose:()=>void;
-}) => {
-    const [isLoading,setIsLoading] = useState<boolean>(false)
-    const [value, setValue] = useState<addCategoryType>({
+    isOpen:boolean,
+    setIsOpen:(isOpen:boolean)=>void,
+    selectedItem? : categoriesItemListType
+    setSelectedItem : React.Dispatch<React.SetStateAction<categoriesItemListType>>
+}
+
+const initialValues = {
         title: "",
         description: "",
         createdAt: new Date().toISOString(),
         userId: "1",
-        icon: "test_icon",
-    });
+        icon: "test_icon",  
+}
+
+const IsnideModalDialoge = ({
+    setCategories,
+    onClose,
+    isOpen,
+    setIsOpen,
+    selectedItem,
+    setSelectedItem
+
+}: isnideModalDialogeType ) => {
+    const [isLoading,setIsLoading] = useState<boolean>(false)
+    const [value, setValue] = useState<addCategoryType>(initialValues);
 
     const handleAddTaskCategory = async (
         e: React.SubmitEvent<HTMLFormElement>,
@@ -33,17 +47,23 @@ const IsnideModalDialoge = ({
         const res = await addTaskCategoryService(value);
         if (res.status === 201) {
             setCategories(res.data);
-            successToast();
+            successToast("دسته بندی با موفقیت اضافه شد");
+            setValue(initialValues)
             setIsLoading(false)
             onClose()
         }
     };
 
+    useEffect(()=>{
+    setValue(selectedItem || initialValues)
+    },[selectedItem])
+
     return (
+    <SimpleDialog isOpen={isOpen}  onClose={()=>setIsOpen(false) }>
         <form action="" onSubmit={handleAddTaskCategory}>
             <div className="flex flex-col gap-6 ">
                 <span className=" flex h-12 items-center justify-center w-full text-center dark:text-white ">
-                    افزودن کار جدید
+                   {selectedItem ? "ویرایش دسته بندی":" افزودن کار جدید"}
                 </span>
 
                 <AppInput
@@ -67,6 +87,7 @@ const IsnideModalDialoge = ({
                 <AppButton type="submit" isLoading={isLoading}/>
             </div>
         </form>
+    </SimpleDialog>
     );
 };
 
