@@ -68,7 +68,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = ({
                     />
 
                     {/* Dialog Container */}
-                    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none ${theme} `}>
+                    <div className={`fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none  ${theme} `}>
                         <motion.div
                             initial={{ opacity: 0, y: -20, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -81,7 +81,7 @@ const SimpleDialog: React.FC<SimpleDialogProps> = ({
                             }}
                             className={`pointer-events-auto ${width} w-full bg-white dark:bg-neutral-800 rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto`}
                         >
-                            <div className="flex fixed items-start justify-between h-7 pr-5 pt-5 dark:border-neutral-700">
+                            <div className="flex fixed items-end justify-between h-7 pr-5 pt-5 dark:border-neutral-700 ">
                                 <h2 className="text-xl font-semibold">
                                     {title}
                                 </h2>

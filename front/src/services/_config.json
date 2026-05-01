@@ -1,4 +1,4 @@
 {
-    "onlinePath" : "http://localhost:3001/",
-    "offlinePath" : "http://localhost:3001/"
+    "onlinePath" : "http://localhost:3001",
+    "offlinePath" : "http://localhost:3001"
 }

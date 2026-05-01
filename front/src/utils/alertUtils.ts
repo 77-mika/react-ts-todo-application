@@ -36,6 +36,7 @@ export const confirmAlert = (
         text,
         showConfirmButton:true,
         confirmButtonText,
+        showCancelButton:true,
         cancelButtonText:'انصراف',
         confirmButtonColor,
         cancelButtonColor:"grey"

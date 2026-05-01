@@ -1,7 +1,7 @@
 import AppButton from "@/components/shared/AppButton";
 import AppInput from "@/components/shared/AppInput";
 import SimpleDialog from "@/components/ui/SimpleDialoge";
-import { addTaskCategoryService } from "@/services/taskCategory";
+import { addTaskCategoryService, updateTaskCategoryService } from "@/services/taskCategory";
 import type {
     addCategoryType,
     categoriesItemListType,
@@ -44,10 +44,16 @@ const IsnideModalDialoge = ({
     ) => {
         e.preventDefault();
         setIsLoading(true)
-        const res = await addTaskCategoryService(value);
+        const res = selectedItem ? await updateTaskCategoryService(selectedItem.id,value) :  await addTaskCategoryService(value);
         if (res.status === 201) {
             setCategories(res.data);
             successToast("دسته بندی با موفقیت اضافه شد");
+            setValue(initialValues)
+            setIsLoading(false)
+            onClose()
+        } else if (res.status === 200){
+            setCategories(res.data);
+            successToast("دسته بندی با موفقیت اپدیت شد");
             setValue(initialValues)
             setIsLoading(false)
             onClose()

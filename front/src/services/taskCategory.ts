@@ -7,9 +7,19 @@ export const getTaskCategories = async () => {
     return null;
 };
 
+export const getTaskCategoriesWithTaskService = () => {
+    return httpService("/taskCategories?_embed=tasks","GET")
+}
+
 export const addTaskCategoryService = (value: addCategoryType) => {
     return httpService("/taskCategories", "POST", value);
 };
 export const deleteTaskCategoryService = (catId:string) => {
     return httpService(`/taskCategories/${catId }`, "DELETE");
 };
+
+
+export const updateTaskCategoryService = (catId:string,value: addCategoryType) => {
+    return httpService(`/taskCategories/${catId }`, "PUT",value);
+};
+
